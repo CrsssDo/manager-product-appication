@@ -18,19 +18,19 @@
                                       {{$product->price }} VND
                                      </b>
                                     <br>
+                                     <a>
+                                        {{$product->amount}} sản phẩm có sẵn
+                                    </a>
                                     <a>
                                         {{$product->location?->name}}
                                     </a>
                                 </span>
-
-
-                        {{--                        <span class="stext-105 cl3">--}}
-                        {{--							{!!  \App\Helpers\Helper::price($product->price, $product->price_sale)  !!}--}}
-                        {{--                        -{{ Str::slug($product->name, '-') }}.html--}}
-                        {{--                        </span>--}}
                     </div>
                 </div>
             </div>
         </div>
     @endforeach
 </div>
+{{$products->links()}}
+
+

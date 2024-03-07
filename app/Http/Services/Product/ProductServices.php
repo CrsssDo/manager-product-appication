@@ -14,14 +14,10 @@ class ProductServices
 
     public function get($page = null)
     {
-        return Product::query()->select('id', 'name', 'price', 'product_status', 'description','image_url')
+        return Product::query()->select('id', 'name', 'price', 'product_status', 'description','image_url', 'amount')
             ->with('location')
             ->orderByDesc('id')
-            ->when($page != null, function ($query) use ($page) {
-                $query->offset($page * self::LIMIT);
-            })
-            ->limit(self::LIMIT)
-            ->get();
+            ->paginate(self::LIMIT);
     }
 
     public function show($id)
