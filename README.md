@@ -24,19 +24,19 @@ docker-compose up -d
 2. Migrate database
 
 ```bash
-docker-compose exec app php artisan migrate
+php artisan migrate
 ```
 
 4. Migrate seed data
 
 ```bash
-docker-compose exec app php artisan db:seed
+php artisan db:seed
 ```
 
 5. Generate key
 
 ```bash
-docker-compose exec app php artisan key:generate
+php artisan key:generate
 ```
 
 ### PHP
