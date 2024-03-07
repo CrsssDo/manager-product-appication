@@ -5,6 +5,8 @@
 ```bash
 export WWWUSER=${WWWUSER:-$UID}
 export WWWGROUP=${WWWGROUP:-$(id -g)}
+
+./vendor/bin/sail up
 ```
 
 ### Configuration
