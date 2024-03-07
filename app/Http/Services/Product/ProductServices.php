@@ -12,11 +12,11 @@ class ProductServices
     //set limit default page = 12
     const LIMIT = 12;
 
-    public function get($page = null)
+    public function get($filter = "")
     {
         return Product::query()->select('id', 'name', 'price', 'product_status', 'description','image_url', 'amount')
             ->with('location')
-            ->orderByDesc('id')
+            ->orderByRaw($filter)
             ->paginate(self::LIMIT);
     }
 
