@@ -7,9 +7,11 @@ namespace App\Http\Services;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderProducts;
 use App\Models\Product;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -46,6 +48,8 @@ class OrderServices
             Session::forget('carts');
         } catch (\Exception $err) {
             DB::rollBack();
+
+            Log::info($err);
             return false;
         }
 
@@ -60,18 +64,28 @@ class OrderServices
             ->whereIn('id', $productId)
             ->get();
 
-        $data = [];
+        $order = Order::query()->create([
+                'customer_id' => $customer_id,
+                'note' => $note,
+            ]);
+
         //merge array data and insert into Order table
         foreach ($products as $product) {
-            $data[] = [
-                'customer_id' => $customer_id,
+            $pivotData = [
+                'order_id' => $order->id,
                 'product_id' => $product->id,
-                'quantity'   => $carts[$product->id],
+                'amount'   => $carts[$product->id],
                 'price' => $product->price,
-                'note' => $note,
             ];
-        }
 
-        return Order::query()->insert($data);
+            OrderProducts::query()->insert($pivotData);
+        }
+    }
+
+    public function get()
+    {
+        $orders = Order::withTotalAmount();
+
+        return $orders;
     }
 }

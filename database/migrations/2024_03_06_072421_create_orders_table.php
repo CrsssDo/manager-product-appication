@@ -14,16 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('product_id');
-            $table->integer('quantity');
-            $table->integer('price');
             $table->enum('order_status', ['pending', 'completed', 'cancelled'])->default('pending');
             $table->string('note')->nullable();
             $table->timestamps();
 
             // create foreign key constraints
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('product');
+// });
+
+Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
+
 
 
 Route::group(['prefix' => 'app'], function () {
@@ -33,4 +36,29 @@ Route::group(['prefix' => 'app'], function () {
 
     Route::post('/order', [App\Http\Controllers\OrderController::class, 'create']);
 
+});
+
+
+//Admin route
+Route::group(['prefix' => 'admin'], function () {
+    //Authentication
+    Route::get('login', [App\Http\Controllers\Admin\UserController::class, 'index']);
+
+    Route::post('authentication', [App\Http\Controllers\Admin\AuthenticationController::class, 'index']);
+
+    Route::get('register', function() {
+        return view('admin.register');
+    });
+
+    Route::prefix('users')->group(function () {
+       Route::post('/', [App\Http\Controllers\Admin\UserController::class, 'create']);
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\OrderController::class, 'index']);
+     });
+
+    Route::get('/', function() {
+        return view('admin.main');
+    });
 });

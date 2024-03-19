@@ -17,17 +17,17 @@ class MainController extends Controller
 
     public function index(Request $request)
     {
-        $filter = "";
+        $filter = "id asc";
 
         switch ($request->sort):
             case 'price_up':
-                $filter .= 'price asc';
+                $filter = 'price asc';
                 break;
             case 'price_down':
-                $filter .= 'price desc';
+                $filter = 'price desc';
                 break;
             case 'amount':
-                $filter .= 'amount';
+                $filter = 'amount';
                 break;
         endswitch;
 
